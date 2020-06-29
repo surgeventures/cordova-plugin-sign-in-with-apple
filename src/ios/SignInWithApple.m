@@ -36,6 +36,16 @@
   }
 }
 
+- (void)isAvailable:(CDVInvokedUrlCommand *)command {
+  _callbackId = [NSMutableString stringWithString:command.callbackId];
+
+  BOOL returnValue = @available(iOS 13.0, *) ? YES : NO;
+  CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                      messageAsBool:returnValue];
+  [self.commandDelegate sendPluginResult:pluginResult
+                              callbackId:command.callbackId];
+}
+
 - (void)signin:(CDVInvokedUrlCommand *)command {
   NSDictionary *options = command.arguments[0];
   NSLog(@"SignInWithApple signin()");
